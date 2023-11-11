@@ -5,6 +5,7 @@ import plotly.graph_objs as go
 
 PLOT_MARGINS = dict(l=20, r=20, t=30, b=20)
 LEGEND_POSITION = dict(yanchor="top", xanchor="right", y=0.99, x=0.99)
+PLOT_HEIGHT = 275
 
 
 def run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma, time_duration=50, timesteps=1000):
@@ -39,11 +40,12 @@ def generate_population_dynamics_plot(t, z):
         )
     )
     fig.update_layout(
+        autosize=True,
+        height=PLOT_HEIGHT,
         xaxis_title="Time",
         yaxis_title="Population (thousands)",
         legend=LEGEND_POSITION,
         margin=PLOT_MARGINS,
-        autosize=True,
     )
     return fig
     
@@ -57,11 +59,12 @@ def generate_phase_space_plot(z):
         )
     )
     fig.update_layout(
+        autosize=True,
+        height=PLOT_HEIGHT,
         xaxis_title="Prey (thousands)",
         yaxis_title="Predators (thousands)",
         legend=LEGEND_POSITION,
         margin=PLOT_MARGINS,
-        autosize=True,
     )
     return fig
 

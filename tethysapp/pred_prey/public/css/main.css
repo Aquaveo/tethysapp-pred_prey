@@ -1,0 +1,17 @@
+.card {
+    border-color: #A81414;
+}
+
+.card-header {
+    background-color: #DB4747;
+    color: white;
+}
+
+.list-group {
+    border-radius: 0.25rem;
+}
+
+.plot-wrapper {
+    height: 35vh;
+    overflow-y: auto;
+}

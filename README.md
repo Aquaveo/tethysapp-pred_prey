@@ -1,13 +1,15 @@
 # TODO:
 
-- [ ] Base Template
-- [ ] Basic Layout
-- [ ] Layout Controls
-- [ ] Plots Generation
-- [ ] Predator-Prey Calcs
+- [x] Base Template
+- [x] Basic Layout
+- [x] Layout Controls
+- [x] Plots Generation
+- [x] Predator-Prey Calcs
+- [ ] Plot height
+- [ ] Round-trip update implementation
 - [ ] REST Endpoints
-- [ ] Automatic updating
-- [ ] Abstract to predator/prey selects?
+- [ ] Automatic updating (JavaScript)
+- [ ] Abstract to predator/prey selects? (e.g. select bears/fish, wolves/sheep, etc.)
 - [ ] Help modal w/ description of calcuations.
 
 Topics to Cover
