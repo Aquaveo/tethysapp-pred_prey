@@ -14,7 +14,15 @@ def home(request):
     beta = 0.4
     delta = 0.1
     gamma = 0.4
-    
+
+    has_errors = False
+    x0_error = ""
+    y0_error = ""
+    alpha_error = ""
+    beta_error = ""
+    delta_error = ""
+    gamma_error = ""
+
     # Handle form submission
     if request.POST and 'update-plots-submit' in request.POST:
         # Update values from values given by user in the form
@@ -25,17 +33,45 @@ def home(request):
         delta = float(request.POST.get('delta', delta))
         gamma = float(request.POST.get('gamma', gamma))
 
-    # Run simulation
-    t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
+        # Handle validation
+        if x0 < 0:
+            has_errors = True
+            x0_error = "x0 must be positive."
+        
+        if y0 < 0:
+            has_errors = True
+            y0_error = "y0 must be positive."
 
-    # Population dynamics plot
-    pop_dyanmics_fig = generate_population_dynamics_plot(t, z)
-    pop_dyanmics_plot = PlotlyView(pop_dyanmics_fig)
-    
-    # Phase space plot
-    phase_space_fig = generate_phase_space_plot(z)
-    phase_space_plot = PlotlyView(phase_space_fig)
-    
+        if alpha < 0:
+            has_errors = True
+            alpha_error = "alpha must be positive."
+
+        if beta < 0:
+            has_errors = True
+            beta_error = "beta must be positive."
+        
+        if delta < 0:
+            has_errors = True
+            delta_error = "delta must be positive."
+
+        if gamma < 0:
+            has_errors = True
+            gamma_error = "gamma must be positive."
+
+    # Run simulation
+    pop_dynamics_plot = None
+    phase_space_plot = None
+    if not has_errors:
+        t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
+
+        # Population dynamics plot
+        pop_dynamics_fig = generate_population_dynamics_plot(t, z)
+        pop_dynamics_plot = PlotlyView(pop_dynamics_fig)
+        
+        # Phase space plot
+        phase_space_fig = generate_phase_space_plot(z)
+        phase_space_plot = PlotlyView(phase_space_fig)
+
     context = {
         'initial_x0': x0,
         'initial_y0': y0,
@@ -43,7 +79,13 @@ def home(request):
         'initial_beta': beta,
         'initial_delta': delta,
         'initial_gamma': gamma,
-        'pop_dynamics_plot': pop_dyanmics_plot,
+        'x0_error': x0_error,
+        'y0_error': y0_error,
+        'alpha_error': alpha_error,
+        'beta_error': beta_error,
+        'delta_error': delta_error,
+        'gamma_error': gamma_error,
+        'pop_dynamics_plot': pop_dynamics_plot,
         'phase_space_plot': phase_space_plot,
     }
     return render(request, 'pred_prey/home.html', context)
