@@ -3,6 +3,10 @@ from scipy.integrate import odeint
 import plotly.graph_objs as go
 
 
+PLOT_MARGINS = dict(l=20, r=20, t=30, b=20)
+LEGEND_POSITION = dict(yanchor="top", xanchor="right", y=0.99, x=0.99)
+
+
 def run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma, time_duration=50, timesteps=1000):
     def simulate_timestep(variables, t, params):
         x, y = variables
@@ -36,20 +40,30 @@ def generate_population_dynamics_plot(t, z):
     )
     fig.update_layout(
         xaxis_title="Time",
-        yaxis_title="Population (in Hundreds)",
-        legend=dict(
-            yanchor="top",
-            xanchor="right",
-            y=0.99,
-            x=0.99,
-        ),
-        margin=dict(
-            l=20, r=20, t=30, b=20
-        ),
+        yaxis_title="Population (thousands)",
+        legend=LEGEND_POSITION,
+        margin=PLOT_MARGINS,
         autosize=True,
     )
     return fig
     
+
+def generate_phase_space_plot(z):
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=z[:,0],
+            y=z[:,1],
+        )
+    )
+    fig.update_layout(
+        xaxis_title="Prey (thousands)",
+        yaxis_title="Predators (thousands)",
+        legend=LEGEND_POSITION,
+        margin=PLOT_MARGINS,
+        autosize=True,
+    )
+    return fig
 
 
 if __name__ == "__main__":
@@ -61,4 +75,7 @@ if __name__ == "__main__":
     gamma = 0.4
     t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
     fig = generate_population_dynamics_plot(t, z)
-    fig.show()
+    print(fig)
+    # fig.show()
+    fig2 = generate_phase_space_plot(z)
+    print(fig2)
