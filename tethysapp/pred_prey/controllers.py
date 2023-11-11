@@ -1,18 +1,32 @@
 from django.shortcuts import render
 from tethys_sdk.routing import controller
-from tethys_sdk.gizmos import Button
+from tethys_sdk.gizmos import PlotlyView
+from .pred_prey import run_pred_prey_simulation, generate_population_dynamics_plot
 
 @controller
 def home(request):
     """
     Controller for the app home page.
     """
+    x0 = 10  # fish units in hudreds
+    y0 = 1  # bears units in hudreds
+    alpha = 1.1
+    beta = 0.4
+    delta = 0.1
+    gamma = 0.4
+    
+    # Population dynamics plot
+    t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
+    pop_dyanmics_fig = generate_population_dynamics_plot(t, z)
+    pop_dyanmics_plot = PlotlyView(pop_dyanmics_fig)
+    
     context = {
-        'initial_x0': 100,
-        'initial_y0': 100,
-        'initial_alpha': 0.005,
-        'initial_beta': 0.00005,
-        'initial_delta': 0.00007,
-        'initial_gamma': 0.002,
+        'initial_x0': x0,
+        'initial_y0': y0,
+        'initial_alpha': alpha,
+        'initial_beta': beta,
+        'initial_delta': delta,
+        'initial_gamma': gamma,
+        'pop_dynamics_plot': pop_dyanmics_plot,
     }
     return render(request, 'pred_prey/home.html', context)

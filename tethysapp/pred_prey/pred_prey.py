@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.integrate import odeint
+import plotly.graph_objs as go
 
 
 def run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma, time_duration=50, timesteps=1000):
@@ -18,7 +19,37 @@ def run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma, time_duration=50
 
 
 def generate_population_dynamics_plot(t, z):
-    pass
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=t,
+            y=z[:,0],
+            name='Prey'
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=t,
+            y=z[:,1],
+            name="Predators"
+        )
+    )
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Population (in Hundreds)",
+        legend=dict(
+            yanchor="top",
+            xanchor="right",
+            y=0.99,
+            x=0.99,
+        ),
+        margin=dict(
+            l=20, r=20, t=30, b=20
+        ),
+        autosize=True,
+    )
+    return fig
+    
 
 
 if __name__ == "__main__":
@@ -29,5 +60,5 @@ if __name__ == "__main__":
     delta = 0.1
     gamma = 0.4
     t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
-    print(t)
-    print(z)
+    fig = generate_population_dynamics_plot(t, z)
+    fig.show()
