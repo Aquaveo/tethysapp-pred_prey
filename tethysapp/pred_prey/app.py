@@ -12,7 +12,7 @@ class PredPrey(TethysAppBase):
     index = 'home'
     icon = f'{package}/images/icon.gif'
     root_url = 'pred-prey'
-    color = '#8e44ad'
+    color = '#a81414'
     tags = ''
     enable_feedback = False
     feedback_emails = []
