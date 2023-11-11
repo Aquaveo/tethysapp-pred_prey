@@ -5,18 +5,18 @@
 - [x] Layout Controls
 - [x] Plots Generation
 - [x] Predator-Prey Calcs
-- [ ] Plot height
-- [ ] Round-trip update implementation
+- [x] Plot height
+- [x] Round-trip update implementation
 - [ ] REST Endpoints
 - [ ] Automatic updating (JavaScript)
-- [ ] Abstract to predator/prey selects? (e.g. select bears/fish, wolves/sheep, etc.)
+- [x] Abstract to predator/prey selects? (e.g. select bears/fish, wolves/sheep, etc.)
 - [ ] Help modal w/ description of calcuations.
 
 Topics to Cover
 - [ ] JavaScript
-- [ ] Templating API
+- [x] Templating API
 - [ ] Settings API: JSON setting?
 - [ ] Routing API / multiple pages / REST API
-- [ ] Template Gizmos
+- [x] Template Gizmos
 - [ ] Dask/Tethys Jobs?
 - [ ] Experimental static resources

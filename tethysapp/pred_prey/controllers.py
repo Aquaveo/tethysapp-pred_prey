@@ -1,7 +1,39 @@
 from django.shortcuts import render
 from tethys_sdk.routing import controller
-from tethys_sdk.gizmos import PlotlyView
+from tethys_sdk.gizmos import PlotlyView, SelectInput
 from .pred_prey import run_pred_prey_simulation, generate_population_dynamics_plot, generate_phase_space_plot
+
+
+SCENARIOS = {
+        'bears-and-fish': {
+            'name': 'Bears and Fish',
+            'alpha': 1.1,
+            'beta': 0.4,
+            'delta': 0.1,
+            'gamma': 0.4,
+        },
+        'foxes-and-rabbits': {
+            'name': 'Foxes and Rabbits',
+            'alpha': 1.7,
+            'beta': 0.6,
+            'delta': 0.2,
+            'gamma': 0.3,
+        },
+        'wolves-and-sheep': {
+            'name': 'Wolves and Sheep',
+            'alpha': 1.5,
+            'beta': 0.8,
+            'delta': 0.1,
+            'gamma': 0.1,
+        },
+        'velociraptor-and-guests': {
+            'name': 'Velociraptor and Park Guests',
+            'alpha': 1.2,
+            'beta': 0.9,
+            'delta': 0.3,
+            'gamma': 0.2,
+        },
+    }
 
 @controller
 def home(request):
@@ -14,6 +46,7 @@ def home(request):
     beta = 0.4
     delta = 0.1
     gamma = 0.4
+    scenario = 'bears-and-fish'
 
     has_errors = False
     x0_error = ""
@@ -32,6 +65,7 @@ def home(request):
         beta = float(request.POST.get('beta', beta))
         delta = float(request.POST.get('delta', delta))
         gamma = float(request.POST.get('gamma', gamma))
+        scenario = request.POST.get('scenario', scenario)
 
         # Handle validation
         if x0 < 0:
@@ -72,6 +106,16 @@ def home(request):
         phase_space_fig = generate_phase_space_plot(z)
         phase_space_plot = PlotlyView(phase_space_fig)
 
+    # Initialize the scenario select input
+    scenario_options = [(v['name'], k) for k, v in SCENARIOS.items()]
+    scenario_select = SelectInput(
+        display_text='Scenario',
+        name='scenario',
+        multiple=False,
+        options=scenario_options,
+        initial=scenario,
+    )
+
     context = {
         'initial_x0': x0,
         'initial_y0': y0,
@@ -87,5 +131,7 @@ def home(request):
         'gamma_error': gamma_error,
         'pop_dynamics_plot': pop_dynamics_plot,
         'phase_space_plot': phase_space_plot,
+        'scenario_select': scenario_select,
+        'scenario_data': SCENARIOS,
     }
     return render(request, 'pred_prey/home.html', context)

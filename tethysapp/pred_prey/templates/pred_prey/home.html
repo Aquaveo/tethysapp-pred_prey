@@ -17,6 +17,9 @@
               {% csrf_token %}
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
+                  {% gizmo scenario_select %}
+                </li>
+                <li class="list-group-item">
                   <h6>Prey Characteristics</h6>
                   <div class="mb-2">
                     <label for="x0" class="form-label">x<sub>0</sub></label>
@@ -119,6 +122,9 @@
 
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
+<div class="d-none" id="data"
+    data-scenarios="{{ scenario_data|jsonify }}"
+></div>
 {% endblock %}
 
 {% block app_actions %}
