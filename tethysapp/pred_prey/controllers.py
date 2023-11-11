@@ -15,6 +15,16 @@ def home(request):
     delta = 0.1
     gamma = 0.4
     
+    # Handle form submission
+    if request.POST and 'update-plots-submit' in request.POST:
+        # Update values from values given by user in the form
+        x0 = int(request.POST.get('x0', x0))
+        y0 = int(request.POST.get('y0', y0))
+        alpha = float(request.POST.get('alpha', alpha))
+        beta = float(request.POST.get('beta', beta))
+        delta = float(request.POST.get('delta', delta))
+        gamma = float(request.POST.get('gamma', gamma))
+
     # Run simulation
     t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
 

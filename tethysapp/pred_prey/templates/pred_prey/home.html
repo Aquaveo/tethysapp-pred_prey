@@ -13,23 +13,24 @@
         <div class="card">
           <h5 class="card-header">Parameters</h5>
           <div class="card-body p-0">
-            <form id="parameters-form">
+            <form id="parameters-form" method="POST" action="">
+              {% csrf_token %}
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                   <h6>Prey Characteristics</h6>
                   <div class="mb-2">
                     <label for="x0" class="form-label">x<sub>0</sub></label>
-                    <input type="number" class="form-control" id="x0-input" name="x0" value="{{ initial_x0 }}" step="25" aria-describedby="x0-help">
-                    <div id="x0-help" class="form-text">Enter the initial population of the prey.</div>
+                    <input type="number" class="form-control" id="x0-input" name="x0" value="{{ initial_x0 }}" step="1" aria-describedby="x0-help">
+                    <div id="x0-help" class="form-text">Enter the initial population of the prey (per sq. kilometer).</div>
                   </div>
                   <div class="mb-2">
                     <label for="alpha" class="form-label">α</label>
-                    <input type="number" class="form-control" id="alpha-input" name="alpha" value="{{ initial_alpha }}" step="0.001" aria-describedby="alpha-help">
+                    <input type="number" class="form-control" id="alpha-input" name="alpha" value="{{ initial_alpha }}" step="0.1" aria-describedby="alpha-help">
                     <div id="alpha-help" class="form-text">Prey per capita growth rate.</div>
                   </div>
                   <div class="mb-2">
                     <label for="beta" class="form-label">β</label>
-                    <input type="number" class="form-control" id="beta-input" name="beta" value="{{ initial_beta }}" step="0.00001" aria-describedby="beta-help">
+                    <input type="number" class="form-control" id="beta-input" name="beta" value="{{ initial_beta }}" step="0.1" aria-describedby="beta-help">
                     <div id="beta-help" class="form-text">Effect of predators on prey growth rate.</div>
                   </div>
                 </li>
@@ -37,19 +38,23 @@
                   <h6>Predator Characteristics</h6>
                   <div class="mb-2">
                     <label for="y0" class="form-label">y<sub>0</sub></label>
-                    <input type="number" class="form-control" id="y0-input" name="y0" value="{{ initial_y0 }}" step="25" aria-describedby="y0-help">
-                    <div id="y0-help" class="form-text">Enter the initial population of the predators.</div>
+                    <input type="number" class="form-control" id="y0-input" name="y0" value="{{ initial_y0 }}" step="1" aria-describedby="y0-help">
+                    <div id="y0-help" class="form-text">Enter the initial population of the predators (per sq. kilometer).</div>
                   </div>
                   <div class="mb-2">
                     <label for="delta" class="form-label">δ</label>
-                    <input type="number" class="form-control" id="delta-input" name="delta" value="{{ initial_delta }}" step="0.00001" aria-describedby="delta-help">
-                    <div id="delta-help" class="form-text">Effect prey on predator growth rate.</div>
+                    <input type="number" class="form-control" id="delta-input" name="delta" value="{{ initial_delta }}" step="0.1" aria-describedby="delta-help">
+                    <div id="delta-help" class="form-text">Effect of prey on predator growth rate.</div>
                   </div>
                   <div class="mb-2">
                     <label for="gamma" class="form-label">γ</label>
-                    <input type="number" class="form-control" id="gamma-input" name="gamma" value="{{ initial_gamma }}" step="0.001" aria-describedby="gamma-help">
-                    <div id="gamma-help" class="form-text">Preditor per capita death rate (i.e. from old age and disease).</div>
+                    <input type="number" class="form-control" id="gamma-input" name="gamma" value="{{ initial_gamma }}" step="0.1" aria-describedby="gamma-help">
+                    <div id="gamma-help" class="form-text">Predator per capita death rate (i.e. from old age and disease).</div>
                   </div>
+                </li>
+                <li class="list-group-item">
+                  <button type="submit" class="btn btn-danger" id="update-plots-submit" name="update-plots-submit"><i class="bi bi-arrow-clockwise"></i> Update Plots</button>
+                  <a class="btn btn-secondary" id="reset-btn" href="">Reset</a>
                 </li>
               </ul>
             </form>

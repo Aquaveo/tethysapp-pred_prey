@@ -43,7 +43,7 @@ def generate_population_dynamics_plot(t, z):
         autosize=True,
         height=PLOT_HEIGHT,
         xaxis_title="Time",
-        yaxis_title="Population (thousands)",
+        yaxis_title="Population (per sq. kilometer)",
         legend=LEGEND_POSITION,
         margin=PLOT_MARGINS,
     )
@@ -61,8 +61,8 @@ def generate_phase_space_plot(z):
     fig.update_layout(
         autosize=True,
         height=PLOT_HEIGHT,
-        xaxis_title="Prey (thousands)",
-        yaxis_title="Predators (thousands)",
+        xaxis_title="Prey (per sq. kilometer)",
+        yaxis_title="Predators (per sq. kilometer)",
         legend=LEGEND_POSITION,
         margin=PLOT_MARGINS,
     )
@@ -79,6 +79,5 @@ if __name__ == "__main__":
     t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
     fig = generate_population_dynamics_plot(t, z)
     print(fig)
-    # fig.show()
     fig2 = generate_phase_space_plot(z)
     print(fig2)
