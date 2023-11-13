@@ -1,6 +1,9 @@
 {% extends "pred_prey/home.html" %}
 {% load static %}
 
+{# Remove form buttons #}
+{% block form-buttons-override %}{% endblock %}
+
 {% block scripts %}
   {{ block.super }}
   <script src="{% static 'pred_prey/js/dynamic.js' %}" type="text/javascript"></script>
