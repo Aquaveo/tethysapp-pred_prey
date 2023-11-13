@@ -5,35 +5,35 @@ from .pred_prey import run_pred_prey_simulation, generate_population_dynamics_pl
 
 
 SCENARIOS = {
-        'bears-and-fish': {
-            'name': 'Bears and Fish',
-            'alpha': 1.1,
-            'beta': 0.4,
-            'delta': 0.1,
-            'gamma': 0.4,
-        },
-        'foxes-and-rabbits': {
-            'name': 'Foxes and Rabbits',
-            'alpha': 1.7,
-            'beta': 0.6,
-            'delta': 0.2,
-            'gamma': 0.3,
-        },
-        'wolves-and-sheep': {
-            'name': 'Wolves and Sheep',
-            'alpha': 1.5,
-            'beta': 0.8,
-            'delta': 0.1,
-            'gamma': 0.1,
-        },
-        'velociraptor-and-guests': {
-            'name': 'Velociraptor and Park Guests',
-            'alpha': 1.2,
-            'beta': 0.9,
-            'delta': 0.3,
-            'gamma': 0.2,
-        },
-    }
+    'bears-and-fish': {
+        'name': 'Bears and Fish',
+        'alpha': 1.1,
+        'beta': 0.4,
+        'delta': 0.1,
+        'gamma': 0.4,
+    },
+    'foxes-and-rabbits': {
+        'name': 'Foxes and Rabbits',
+        'alpha': 1.7,
+        'beta': 0.6,
+        'delta': 0.2,
+        'gamma': 0.3,
+    },
+    'wolves-and-sheep': {
+        'name': 'Wolves and Sheep',
+        'alpha': 1.5,
+        'beta': 0.8,
+        'delta': 0.1,
+        'gamma': 0.1,
+    },
+    'velociraptor-and-guests': {
+        'name': 'Velociraptor and Park Guests',
+        'alpha': 1.2,
+        'beta': 0.9,
+        'delta': 0.3,
+        'gamma': 0.2,
+    },
+}
 
 @controller
 def home(request):
@@ -135,3 +135,51 @@ def home(request):
         'scenario_data': SCENARIOS,
     }
     return render(request, 'pred_prey/home.html', context)
+
+
+@controller
+def dynamic(request):
+    """
+    Controller for the app home page.
+    """
+    x0 = 10  # fish units in hudreds
+    y0 = 1  # bears units in hudreds
+    alpha = 1.1
+    beta = 0.4
+    delta = 0.1
+    gamma = 0.4
+    scenario = 'bears-and-fish'
+
+    t, z = run_pred_prey_simulation(x0, y0, alpha, beta, delta, gamma)
+
+    # Population dynamics plot
+    pop_dynamics_fig = generate_population_dynamics_plot(t, z)
+    pop_dynamics_plot = PlotlyView(pop_dynamics_fig)
+    
+    # Phase space plot
+    phase_space_fig = generate_phase_space_plot(z)
+    phase_space_plot = PlotlyView(phase_space_fig)
+
+    # Initialize the scenario select input
+    scenario_options = [(v['name'], k) for k, v in SCENARIOS.items()]
+    scenario_select = SelectInput(
+        display_text='Scenario',
+        name='scenario',
+        multiple=False,
+        options=scenario_options,
+        initial=scenario,
+    )
+
+    context = {
+        'initial_x0': x0,
+        'initial_y0': y0,
+        'initial_alpha': alpha,
+        'initial_beta': beta,
+        'initial_delta': delta,
+        'initial_gamma': gamma,
+        'pop_dynamics_plot': pop_dynamics_plot,
+        'phase_space_plot': phase_space_plot,
+        'scenario_select': scenario_select,
+        'scenario_data': SCENARIOS,
+    }
+    return render(request, 'pred_prey/dynamic.html', context)
