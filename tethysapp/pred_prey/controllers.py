@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from tethys_sdk.routing import controller
 from tethys_sdk.gizmos import PlotlyView, SelectInput
@@ -183,3 +184,12 @@ def dynamic(request):
         'scenario_data': SCENARIOS,
     }
     return render(request, 'pred_prey/dynamic.html', context)
+
+
+@controller
+def run_simulation(request):
+    """
+    Controller for the run simulation page.
+    """
+    print(request.POST)
+    return JsonResponse({'success': True})
