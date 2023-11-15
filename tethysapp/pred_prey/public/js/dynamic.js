@@ -13,22 +13,23 @@ window.addEventListener('load', function(event) {
             fetch('/apps/pred-prey/run-simulation/', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    "X-CSRFToken": get_csrf_token(),
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
                 },
                 body: formJsonString,
+                credentials: 'same-origin',
             }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                else {
+                if (!response.ok) {
                     console.error('Error: ' + response.status);
-                    console.error(response.body);
                 }
-            }).then(data => {
-                console.log(data);
-            });
-
-            // Update plots
+                return response.json();
+            }).then(json => {
+                console.log(json);
+                // Update plots
+            }).catch(
+                error => console.error('Error: ' + error)
+            );
         });
     });
 });
