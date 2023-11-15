@@ -16,5 +16,8 @@ window.addEventListener('load', function(event) {
         $('#beta-input').val(selected_scenario_data.beta);
         $('#delta-input').val(selected_scenario_data.delta);
         $('#gamma-input').val(selected_scenario_data.gamma);
+
+        // trigger change event for vanilla js handlers
+        document.getElementById('alpha-input').dispatchEvent(new Event('change'));
     });
 });

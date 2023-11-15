@@ -5,7 +5,6 @@ window.addEventListener('load', function(event) {
             // Get form values and convert to json
             const formData = new FormData(document.querySelector('#parameters-form'));
             const formJson = Object.fromEntries(formData.entries());
-            console.log(formJson);
             
             // Submit fetch request to run simulation
             const formJsonString = JSON.stringify(formJson);
