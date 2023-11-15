@@ -156,10 +156,13 @@ def dynamic(request):
 
     # Population dynamics plot
     pop_dynamics_fig = generate_population_dynamics_plot(t, z)
+    print(pop_dynamics_fig)
     pop_dynamics_plot = PlotlyView(pop_dynamics_fig)
     
     # Phase space plot
     phase_space_fig = generate_phase_space_plot(z)
+    print(phase_space_fig.data)
+    print(phase_space_fig.layout)
     phase_space_plot = PlotlyView(phase_space_fig)
 
     # Initialize the scenario select input
@@ -192,7 +195,6 @@ def run_simulation(request):
     """
     Controller for the run simulation page.
     """
-    print(request.body)
     params = json.loads(request.body)
     x0 = params.get('x0')
     y0 = params.get('y0')
@@ -212,10 +214,15 @@ def run_simulation(request):
     
     t, z = run_pred_prey_simulation(int(x0), int(y0), float(alpha), float(beta), float(delta), float(gamma))
     
+    # Population dynamics plot
+    pop_dynamics_fig = generate_population_dynamics_plot(t, z)
+    
+    # Phase space plot
+    phase_space_fig = generate_phase_space_plot(z)
+
     response = JsonResponse({
         'success': True,
-        't': t.tolist(),
-        'prey': z[:,0].tolist(),
-        'predators': z[:,1].tolist(),
+        'pop_dynamics_plot': pop_dynamics_fig.to_json(),
+        'phase_space_plot': phase_space_fig.to_json(),
     })
     return response

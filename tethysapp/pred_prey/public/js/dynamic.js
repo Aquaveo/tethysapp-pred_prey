@@ -31,7 +31,12 @@ window.addEventListener('load', function(event) {
                 }
 
                 // Update plots
-                console.log(json);
+                let popDynamicsPlot = JSON.parse(json.pop_dynamics_plot);
+                let popDynamicsPlotDiv = document.querySelector('#population-dynamics-container .plotly-graph-div');
+                Plotly.react(popDynamicsPlotDiv, popDynamicsPlot.data, popDynamicsPlot.layout);
+                let phaseSpacePlot = JSON.parse(json.phase_space_plot);
+                let phaseSpacePlotDiv = document.querySelector('#phase-space-container .plotly-graph-div');
+                Plotly.react(phaseSpacePlotDiv, phaseSpacePlot.data, phaseSpacePlot.layout);
             }).catch(
                 error => console.error('Error: ' + error)
             );
