@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from tethys_sdk.routing import controller
@@ -191,5 +192,30 @@ def run_simulation(request):
     """
     Controller for the run simulation page.
     """
-    print(request.POST)
-    return JsonResponse({'success': True})
+    print(request.body)
+    params = json.loads(request.body)
+    x0 = params.get('x0')
+    y0 = params.get('y0')
+    alpha = params.get('alpha')
+    beta = params.get('beta')
+    delta = params.get('delta')
+    gamma = params.get('gamma')
+    
+    if not x0 or not y0 or not alpha or not beta or not delta or not gamma:
+        response = JsonResponse({
+            'success': False,
+            'error': 'Missing required parameter(s): '
+                    f'received x0={x0}, y0={y0}, alpha={alpha}, '
+                    f'beta={beta}, delta={delta}, gamma={gamma}',
+        })
+        return response
+    
+    t, z = run_pred_prey_simulation(int(x0), int(y0), float(alpha), float(beta), float(delta), float(gamma))
+    
+    response = JsonResponse({
+        'success': True,
+        't': t.tolist(),
+        'prey': z[:,0].tolist(),
+        'predators': z[:,1].tolist(),
+    })
+    return response
